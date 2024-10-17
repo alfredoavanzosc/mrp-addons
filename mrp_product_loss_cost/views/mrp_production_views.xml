@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mrp_production_form_view" model="ir.ui.view">
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp_stock_move_cost.mrp_production_form_view" />
+        <field name="arch" type="xml">
+            <field name="price_unit_cost" position="after">
+                <field name="total_cost" readonly="1" />
+            </field>
+            <field name="cost" position="after">
+                <field name="scrap_cost" readonly="1" />
+            </field>
+        </field>
+    </record>
+
+    <record id="mrp_production_tree_view" model="ir.ui.view">
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp_stock_move_cost.mrp_production_tree_view" />
+        <field name="arch" type="xml">
+            <field name="cost" position="after">
+                <field name="scrap_cost" optional="show" sum="Total Scrap Cost" />
+                <field name="total_cost" optional="show" sum="Total MO Cost" />
+            </field>
+        </field>
+    </record>
+
+    <record id="action_cost_in_mrp_production" model="ir.actions.server">
+        <field name="name">Put Cost</field>
+        <field name="model_id" ref="mrp.model_mrp_production" />
+        <field name="binding_model_id" ref="mrp.model_mrp_production" />
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records._put_cost_in_mrp_production()
+        </field>
+    </record>
+</odoo>
